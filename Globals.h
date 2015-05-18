@@ -28,8 +28,9 @@ const int drift = 0;
 // Button types
 enum ButtonTypes
 {
-	IMAGE = 1,  // button used the constructor with an image
-	TEXT = 2  // button used the constructor with text
+	IMAGE  = 1,  // button used the constructor with an image
+	ALTIMG = 2,
+	TEXT   = 3  // button used the constructor with text
 };
 // Particle systems
 enum

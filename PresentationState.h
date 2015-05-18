@@ -1,3 +1,5 @@
+#pragma once
+
 #include "CoreGame.h"
 
 class PresentationState : public GameState

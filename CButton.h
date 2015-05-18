@@ -31,10 +31,14 @@ class Button
         int mAlphaVal;
 
         Texture mTexture;
+        Texture mAltTexture;
+
+        bool usingAltTexture;
 
     public:
 
         Button(int x, int y, string name); // button uses an image
+        Button(int x, int y, string stdImagePath, string altImagePath); // button uses an image and an alternate image
 
         Button(int x, int y, string text, int fontSize); //use default colors
         Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL_Color fillColor, SDL_Color borderColor, SDL_Color hoverColor);

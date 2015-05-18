@@ -1,5 +1,5 @@
 #include "CoreGame.h"
-#include "PresentationState.cpp"
+#include "PresentationState.h"
 
 Game::Game()
 {
@@ -161,7 +161,7 @@ bool Game::LoadContent()
 
     //-- Load game content here
 
-    ChangeState(IntroState::GetInstance());
+    ChangeState(PresentationState::GetInstance());
 
     //--
 

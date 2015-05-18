@@ -5,24 +5,25 @@ Button::Button(int x, int y, string name)
 {
     buttonType = IMAGE;
 
-    leftReleased = false;
-    rightReleased = false;
-    leftClicked = false;
-    rightClicked = false;
-    mousedOver = false;
+    usingAltTexture = false;
+    leftReleased    = false;
+    rightReleased   = false;
+    leftClicked     = false;
+    rightClicked    = false;
+    mousedOver      = false;
 
-    hoverClr.r = 0;
-    hoverClr.g = 187;
-    hoverClr.b = 255; // magenta hover
+    hoverClr.r      = 0;
+    hoverClr.g      = 187;
+    hoverClr.b      = 255; // magenta hover
 
     mTexture.LoadImage(name.c_str());
 
-    collisionBox.x = x;
-    collisionBox.y = y;
-    collisionBox.w = mTexture.GetWidth();
-    collisionBox.h = mTexture.GetHeight();
+    collisionBox.x  = x;
+    collisionBox.y  = y;
+    collisionBox.w  = mTexture.GetWidth();
+    collisionBox.h  = mTexture.GetHeight();
 
-    mAlphaVal = 255;
+    mAlphaVal       = 255;
 
     // Enable blending
     mTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
@@ -102,6 +103,7 @@ Button::Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL
 Button::~Button()
 {
     mTexture.Free();
+    mAltTexture.Free();
     TTF_CloseFont(buttonFont);
 }
 
@@ -124,6 +126,29 @@ void Button::Draw()
         else if (mousedOver)
         {
 
+            // draw image with hover color modulation
+            mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
+            mTexture.Draw(collisionBox.x, collisionBox.y);
+        }
+    }
+    else if(buttonType == ALTIMG)
+    {
+        if (!mousedOver)
+        {
+            // draw correct image
+            if(!usingAltTexture)
+            {
+                mTexture.SetColor(255, 255, 255);
+                mTexture.Draw(collisionBox.x, collisionBox.y);
+            }
+            else
+            {
+                mAltTexture.SetColor(255, 255, 255);
+                mAltTexture.Draw(collisionBox.x, collisionBox.y);
+            }
+        }
+        else if (mousedOver)
+        {
             // draw image with hover color modulation
             mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
             mTexture.Draw(collisionBox.x, collisionBox.y);
@@ -256,7 +281,6 @@ void Button::HandleEvents()
 
 void Button::Update()
 {
-
     // Update moused over status
     int x, y;
 
@@ -272,3 +296,29 @@ void Button::Update()
     }
 
 }
+
+Button::Button(int x, int y, string stdImagePath, string altImagePath)
+{
+    buttonType     = ALTIMG;
+
+    leftReleased   = false;
+    rightReleased  = false;
+    leftClicked    = false;
+    rightClicked   = false;
+    mousedOver     = false;
+
+    // May cause issues if std img and alt img aren't the same dimensions
+    mTexture.LoadImage(stdImagePath.c_str());
+    mAltTexture.LoadImage(altImagePath.c_str());
+
+    collisionBox.x = x;
+    collisionBox.y = y;
+    collisionBox.w = mTexture.GetWidth();
+    collisionBox.h = mTexture.GetHeight();
+
+    mAlphaVal      = 255;
+
+    // Enable blending
+    mTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
+}
+
