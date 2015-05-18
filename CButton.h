@@ -49,32 +49,36 @@ class Button
         void HandleEvents(); // on click, rollover, release,
         void Update();
 
+        void Free();
+
+        void ToggleAltImage();
+
         void SetAlpha(int newAlpha)
         {
             mAlphaVal = newAlpha;
         }
 
-        bool wasLeftReleased()
+        bool WasLeftReleased()
         {
             return leftReleased;
         }
 
-        bool wasRightReleased()
+        bool WasRightReleased()
         {
             return rightReleased;
         }
 
-        bool wasLeftClicked()
+        bool WasLeftClicked()
         {
             return leftClicked;
         }
 
-        bool wasRightClicked()
+        bool WasRightClicked()
         {
             return rightClicked;
         }
 
-        bool isMousedOver()
+        bool IsMousedOver()
         {
             return mousedOver;
         }

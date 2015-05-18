@@ -5,7 +5,8 @@ Button::Button(int x, int y, string name)
 {
     buttonType = IMAGE;
 
-    usingAltTexture = false;
+    buttonFont = NULL;
+
     leftReleased    = false;
     rightReleased   = false;
     leftClicked     = false;
@@ -102,9 +103,15 @@ Button::Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL
 
 Button::~Button()
 {
+    Free();
+}
+
+void Button::Free()
+{
     mTexture.Free();
     mAltTexture.Free();
-    TTF_CloseFont(buttonFont);
+    if(buttonFont != NULL) TTF_CloseFont(buttonFont);
+
 }
 
 void Button::Draw()
@@ -149,9 +156,19 @@ void Button::Draw()
         }
         else if (mousedOver)
         {
-            // draw image with hover color modulation
-            mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
-            mTexture.Draw(collisionBox.x, collisionBox.y);
+            // draw correct image
+            if(!usingAltTexture)
+            {
+                // draw image with hover color modulation
+                mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
+                mTexture.Draw(collisionBox.x, collisionBox.y);
+            }
+            else
+            {// draw image with hover color modulation
+                mAltTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
+                mAltTexture.Draw(collisionBox.x, collisionBox.y);
+
+            }
         }
     }
     else if (buttonType == TEXT)
@@ -279,6 +296,11 @@ void Button::HandleEvents()
     }
 }
 
+void Button::ToggleAltImage()
+{
+    usingAltTexture = !usingAltTexture;
+}
+
 void Button::Update()
 {
     // Update moused over status
@@ -294,18 +316,25 @@ void Button::Update()
     {
         mousedOver = false;
     }
-
 }
 
 Button::Button(int x, int y, string stdImagePath, string altImagePath)
 {
     buttonType     = ALTIMG;
 
+    buttonFont = NULL;
+
     leftReleased   = false;
     rightReleased  = false;
     leftClicked    = false;
     rightClicked   = false;
     mousedOver     = false;
+
+    hoverClr.r      = 0;
+    hoverClr.g      = 187;
+    hoverClr.b      = 255;
+
+    usingAltTexture = false;
 
     // May cause issues if std img and alt img aren't the same dimensions
     mTexture.LoadImage(stdImagePath.c_str());
@@ -321,4 +350,3 @@ Button::Button(int x, int y, string stdImagePath, string altImagePath)
     // Enable blending
     mTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
 }
-

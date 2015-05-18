@@ -33,6 +33,8 @@ class PresentationState : public GameState
         /* Place State Items here */
         /**************************/
 
+        Button *mButton;
+
         /**************************/
 };
 
