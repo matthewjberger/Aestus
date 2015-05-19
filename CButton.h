@@ -53,7 +53,9 @@ class Button
 
         void Free();
 
+        void ShowAltImage(bool show) { usingAltTexture = show; }
         void ToggleAltImage();
+        bool UsingAltImage() { return usingAltTexture; }
 
         void SetAlpha(int newAlpha)
         {

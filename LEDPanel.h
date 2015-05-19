@@ -25,5 +25,6 @@ class LEDPanel
         Button *mButtons[NUM_LEDS];
         int mMargin;
         int mGap;
+        bool mButtonActive;
 
 };

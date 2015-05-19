@@ -5,6 +5,7 @@ LEDPanel::LEDPanel()
 {
     mMargin = 10;
     mGap    = 15;
+    mButtonActive = false;
 
     string type[]  = {"TH", "PL", "SM"};
     string color[] = {"R", "O", "Y", "G", "B", "W" };
@@ -51,22 +52,37 @@ void LEDPanel::Draw(int x, int y)
         mButtons[i + 2]->SetY(mButtons[i + 1]->GetCollisionBox().y + mButtons[i + 1]->GetCollisionBox().h + mGap);
         mButtons[i + 2]->Draw();
     }
-
 }
 
 void LEDPanel::HandleEvents()
 {
-
     for(auto i : mButtons)
     {
         i->HandleEvents();
 
         if(i->WasLeftClicked())
         {
+            if(mButtonActive && i->UsingAltImage())
+            {
+                mButtonActive = false;
+            }
+            else if(mButtonActive && !i->UsingAltImage())
+            {
+                for(auto i : mButtons)
+                {
+                    if(i->UsingAltImage()) i->ShowAltImage(false);
+                }
+
+            }
+            else if(!mButtonActive)
+            {
+                mButtonActive = true;
+            }
+
             i->ToggleAltImage();
         }
 
-        i->ShowCollisionBoxForTexture(i->IsMousedOver());
+       i->ShowCollisionBoxForTexture(i->IsMousedOver());
     }
 }
 
