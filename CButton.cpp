@@ -135,7 +135,7 @@ void Button::Draw()
 
             // draw image with hover color modulation
             mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
-            mTexture.Draw(collisionBox.x, collisionBox.y);
+            mTexture.Draw(collisionBox.x,  collisionBox.y);
         }
     }
     else if(buttonType == ALTIMG)
@@ -151,7 +151,7 @@ void Button::Draw()
             else
             {
                 mAltTexture.SetColor(255, 255, 255);
-                mAltTexture.Draw(collisionBox.x, collisionBox.y);
+                mAltTexture.Draw(collisionBox.x - abs(collisionBox.w/2 - mAltTexture.GetWidth()/2), collisionBox.y - abs(collisionBox.h/2 - mAltTexture.GetHeight()/2));
             }
         }
         else if (mousedOver)
@@ -164,11 +164,13 @@ void Button::Draw()
                 mTexture.Draw(collisionBox.x, collisionBox.y);
             }
             else
-            {// draw image with hover color modulation
+            {
+                // draw image with hover color modulation
                 mAltTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
-                mAltTexture.Draw(collisionBox.x, collisionBox.y);
-
-            }
+                mAltTexture.Draw(collisionBox.x - abs(collisionBox.w/2 - mAltTexture.GetWidth()/2), collisionBox.y - abs(collisionBox.h/2 - mAltTexture.GetHeight()/2));
+                SDL_SetRenderDrawColor( game->GetRenderer(), 0, 255, 0, 255);
+                SDL_RenderDrawRect(game->GetRenderer(), &collisionBox);
+             }
         }
     }
     else if (buttonType == TEXT)
@@ -336,7 +338,6 @@ Button::Button(string stdImagePath, string altImagePath, int x, int y)
 
     usingAltTexture = false;
 
-    // May cause issues if std img and alt img aren't the same dimensions
     mTexture.LoadImage(stdImagePath.c_str());
     mAltTexture.LoadImage(altImagePath.c_str());
 
@@ -350,3 +351,4 @@ Button::Button(string stdImagePath, string altImagePath, int x, int y)
     // Enable blending
     mTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
 }
+

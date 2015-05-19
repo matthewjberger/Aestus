@@ -35,6 +35,8 @@ class Button
 
         bool usingAltTexture;
 
+        SDL_Rect visRect;
+
     public:
 
         Button(int x, int y, string name); // button uses an image

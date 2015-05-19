@@ -47,7 +47,7 @@ void LEDPanel::Draw(int x, int y)
         mButtons[i + 1]->Draw();
 
         // Draw the final button
-        mButtons[i + 2]->SetX(mButtons[ i + 1]->GetCollisionBox().x);
+        mButtons[i + 2]->SetX(mButtons[i + 1]->GetCollisionBox().x);
         mButtons[i + 2]->SetY(mButtons[i + 1]->GetCollisionBox().y + mButtons[i + 1]->GetCollisionBox().h + mGap);
         mButtons[i + 2]->Draw();
     }
