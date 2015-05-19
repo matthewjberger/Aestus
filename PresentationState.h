@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreGame.h"
+#include "LEDPanel.h"
 
 class PresentationState : public GameState
 {
@@ -33,7 +34,7 @@ class PresentationState : public GameState
         /* Place State Items here */
         /**************************/
 
-        Button *mButton;
+        LEDPanel *ledPanel;
 
         /**************************/
 };

@@ -38,7 +38,7 @@ class Button
     public:
 
         Button(int x, int y, string name); // button uses an image
-        Button(int x, int y, string stdImagePath, string altImagePath); // button uses an image and an alternate image
+        Button(string stdImagePath, string altImagePath, int x=0, int y=0); // button uses an image and an alternate image
 
         Button(int x, int y, string text, int fontSize); //use default colors
         Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL_Color fillColor, SDL_Color borderColor, SDL_Color hoverColor);
@@ -102,5 +102,11 @@ class Button
         {
             leftReleased = false;
             rightReleased = false;
+        }
+
+        void ShowCollisionBoxForTexture(bool vis)
+        {
+            mTexture.SetCollisionBoxVisible(vis);
+            //mAltTexture.SetCollisionBoxVisible(vis);
         }
 };

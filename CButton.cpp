@@ -318,7 +318,7 @@ void Button::Update()
     }
 }
 
-Button::Button(int x, int y, string stdImagePath, string altImagePath)
+Button::Button(string stdImagePath, string altImagePath, int x, int y)
 {
     buttonType     = ALTIMG;
 
@@ -330,8 +330,8 @@ Button::Button(int x, int y, string stdImagePath, string altImagePath)
     rightClicked   = false;
     mousedOver     = false;
 
-    hoverClr.r      = 0;
-    hoverClr.g      = 187;
+    hoverClr.r      = 255;
+    hoverClr.g      = 255;
     hoverClr.b      = 255;
 
     usingAltTexture = false;

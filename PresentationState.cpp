@@ -7,19 +7,22 @@ void PresentationState::Init()
 {
 	printf("Intro Init\n");
 
-	mButton = new Button(0,0,"Images/PL-B-I.png","Images/PL-B-O.png");
+    ledPanel = new LEDPanel();
 }
 
 void PresentationState::Finalize()
 {
 	printf("Intro Finalize\n");
 
-    delete mButton;
+	delete ledPanel;
 }
 
 void PresentationState::Draw()
 {
-    mButton->Draw();
+    Game *game = Game::GetInstance();
+
+    game->ClearScreen(101, 156, 239);
+    ledPanel->Draw();
 }
 
 void PresentationState::Update()
@@ -28,12 +31,7 @@ void PresentationState::Update()
 
 void PresentationState::HandleEvents()
 {
-    mButton->HandleEvents();
-
-    if(mButton->WasLeftClicked())
-    {
-        mButton->ToggleAltImage();
-    }
+    ledPanel->HandleEvents();
 }
 
 void PresentationState::Pause()

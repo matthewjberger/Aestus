@@ -10,8 +10,8 @@ Game::Game()
     debugging = false;
 
     // Set default resolution
-    screenWidth  = 1024;
-    screenHeight = 768;
+    screenWidth  = 240;
+    screenHeight = 728;
 
     gameCamera.x = 0;
     gameCamera.y = 0;
@@ -28,7 +28,7 @@ Game::Game()
     renderer = NULL;
 
     // Set default color to white
-    defaultColor = { 255, 255, 255 };
+    defaultColor = { 101, 156, 239 };
 
     // Set Max FPS
     maxFPS = 60;

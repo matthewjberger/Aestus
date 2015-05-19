@@ -7,6 +7,7 @@ Texture::Texture()
 	mTexture = NULL;
 	mWidth = 0;
 	mHeight = 0;
+	mShowCollisionBox = false;
 }
 
 Texture::~Texture()
@@ -132,6 +133,12 @@ void Texture::Draw(int x, int y, SDL_Rect* clip, double angle, SDL_Point* center
 		renderArea.w = clip->w;
 		renderArea.h = clip->h;
 	}
+
+	if(mShowCollisionBox)
+    {
+        SDL_SetRenderDrawColor( game->GetRenderer(), 0, 255, 0, 255);
+        SDL_RenderDrawRect(game->GetRenderer(), &renderArea);
+    }
 
 	// Render to screen
 	SDL_RenderCopyEx(game->GetRenderer(), mTexture, clip, &renderArea, angle, center, flip);

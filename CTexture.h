@@ -46,6 +46,12 @@ public:
 		return mHeight;
 	}
 
+    // Collision Box Visibility setting
+    void SetCollisionBoxVisible(bool vis) { mShowCollisionBox = vis; }
+
+	// Toggle collision box visibility
+	void ToggleCollisionBox() { mShowCollisionBox = !mShowCollisionBox; }
+
 private:
 	// Hardware texture
 	SDL_Texture *mTexture;
@@ -53,5 +59,8 @@ private:
 	// Dimensions
 	int mWidth;
 	int mHeight;
+
+	// Collision box debugging
+	bool mShowCollisionBox;
 
 };
