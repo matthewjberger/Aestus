@@ -56,34 +56,47 @@ void LEDPanel::Draw(int x, int y)
 
 void LEDPanel::HandleEvents()
 {
+
     for(auto i : mButtons)
     {
         i->HandleEvents();
 
         if(i->WasLeftClicked())
         {
-            if(mButtonActive && i->UsingAltImage())
-            {
-                mButtonActive = false;
-            }
-            else if(mButtonActive && !i->UsingAltImage())
-            {
-                for(auto i : mButtons)
-                {
-                    if(i->UsingAltImage()) i->ShowAltImage(false);
-                }
-
-            }
-            else if(!mButtonActive)
-            {
-                mButtonActive = true;
-            }
-
             i->ToggleAltImage();
         }
 
-       i->ShowCollisionBoxForTexture(i->IsMousedOver());
+        i->ShowCollisionBoxForTexture(i->IsBeingDragged());
     }
+
+/*    for(auto i : mButtons)*/
+    //{
+        //i->HandleEvents();
+
+        //if(i->WasLeftClicked())
+        //{
+            //if(mButtonActive && i->UsingAltImage())
+            //{
+                //mButtonActive = false;
+            //}
+            //else if(mButtonActive && !i->UsingAltImage())
+            //{
+                //for(auto i : mButtons)
+                //{
+                    //if(i->UsingAltImage()) i->ShowAltImage(false);
+                //}
+
+            //}
+            //else if(!mButtonActive)
+            //{
+                //mButtonActive = true;
+            //}
+
+            //i->ToggleAltImage();
+        //}
+
+       //i->ShowCollisionBoxForTexture(i->IsMousedOver());
+    /*}*/
 }
 
 void LEDPanel::Update()

@@ -12,6 +12,7 @@ Button::Button(int x, int y, string name)
     leftClicked     = false;
     rightClicked    = false;
     mousedOver      = false;
+    dragging        = false;
 
     hoverClr.r      = 0;
     hoverClr.g      = 187;
@@ -59,11 +60,12 @@ Button::Button(int x, int y, string text, int fontSize)
 
     buttonType = TEXT;
 
-    leftReleased = false;
-    rightReleased = false;
-    leftClicked = false;
-    rightClicked = false;
-    mousedOver = false;
+    leftReleased    = false;
+    rightReleased   = false;
+    leftClicked     = false;
+    rightClicked    = false;
+    mousedOver      = false;
+    dragging        = false;
 
     mAlphaVal = 255;
 
@@ -89,11 +91,12 @@ Button::Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL
 
     buttonType = TEXT;
 
-    leftReleased = false;
+    leftReleased  = false;
     rightReleased = false;
-    leftClicked = false;
-    rightClicked = false;
-    mousedOver = false;
+    leftClicked   = false;
+    rightClicked  = false;
+    mousedOver    = false;
+    dragging      = false;
 
     mAlphaVal = 255;
 
@@ -209,7 +212,6 @@ void Button::Draw()
 
 void Button::HandleEvents()
 {
-
     // Get game instance
     Game *game = Game::GetInstance();
 
@@ -218,9 +220,6 @@ void Button::HandleEvents()
     // Mouse position variables
     int x;
     int y;
-
-    // Reset release events
-    ResetReleases();
 
     SDL_GetMouseState(&x, &y);
 
@@ -237,10 +236,13 @@ void Button::HandleEvents()
         {
             mousedOver = false;
         }
-
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
+        int x2, y2;
+        SDL_GetMouseState(&x2, &y2);
+        if(x != x2 && y != y2) dragging = true;
+
         switch (event.button.button)
         {
         case SDL_BUTTON_LEFT:
@@ -264,6 +266,8 @@ void Button::HandleEvents()
     }
     else if (event.type == SDL_MOUSEBUTTONUP)
     {
+        dragging = false;
+
         switch (event.button.button)
         {
         case SDL_BUTTON_LEFT:
@@ -296,6 +300,8 @@ void Button::HandleEvents()
             break;
         }
     }
+
+    ResetReleases();
 }
 
 void Button::ToggleAltImage()
@@ -305,19 +311,6 @@ void Button::ToggleAltImage()
 
 void Button::Update()
 {
-    // Update moused over status
-    int x, y;
-
-    SDL_GetMouseState(&x, &y);
-
-    if(MARCollisionTest(x, y, collisionBox))
-    {
-        mousedOver = true;
-    }
-    else
-    {
-        mousedOver = false;
-    }
 }
 
 Button::Button(string stdImagePath, string altImagePath, int x, int y)
@@ -331,6 +324,7 @@ Button::Button(string stdImagePath, string altImagePath, int x, int y)
     leftClicked    = false;
     rightClicked   = false;
     mousedOver     = false;
+    dragging       = false;
 
     hoverClr.r      = 255;
     hoverClr.g      = 255;
