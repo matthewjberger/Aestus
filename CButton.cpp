@@ -12,7 +12,6 @@ Button::Button(int x, int y, string name)
     leftClicked     = false;
     rightClicked    = false;
     mousedOver      = false;
-    dragging        = false;
 
     hoverClr.r      = 0;
     hoverClr.g      = 187;
@@ -65,7 +64,6 @@ Button::Button(int x, int y, string text, int fontSize)
     leftClicked     = false;
     rightClicked    = false;
     mousedOver      = false;
-    dragging        = false;
 
     mAlphaVal = 255;
 
@@ -96,7 +94,6 @@ Button::Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL
     leftClicked   = false;
     rightClicked  = false;
     mousedOver    = false;
-    dragging      = false;
 
     mAlphaVal = 255;
 
@@ -239,10 +236,6 @@ void Button::HandleEvents()
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
-        int x2, y2;
-        SDL_GetMouseState(&x2, &y2);
-        if(x != x2 && y != y2) dragging = true;
-
         switch (event.button.button)
         {
         case SDL_BUTTON_LEFT:
@@ -266,8 +259,6 @@ void Button::HandleEvents()
     }
     else if (event.type == SDL_MOUSEBUTTONUP)
     {
-        dragging = false;
-
         switch (event.button.button)
         {
         case SDL_BUTTON_LEFT:
@@ -324,7 +315,6 @@ Button::Button(string stdImagePath, string altImagePath, int x, int y)
     leftClicked    = false;
     rightClicked   = false;
     mousedOver     = false;
-    dragging       = false;
 
     hoverClr.r      = 255;
     hoverClr.g      = 255;

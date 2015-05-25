@@ -27,7 +27,6 @@ class Button
         bool mouseClicked;   // is the mouse over the button when clicked
         bool leftReleased;
         bool rightReleased;
-        bool dragging;
 
         int mAlphaVal;
 
@@ -113,10 +112,5 @@ class Button
         {
             mTexture.SetCollisionBoxVisible(vis);
             //mAltTexture.SetCollisionBoxVisible(vis);
-        }
-
-        bool IsBeingDragged()
-        {
-            return dragging;
         }
 };
