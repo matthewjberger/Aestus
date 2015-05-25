@@ -2,7 +2,7 @@
 OBJS = *.cpp
 
 # Executable name
-OBJ_NAME = AestusLEDPanel
+OBJ_NAME = vimTest
 
 #INCLUDE_PATHS specifies the additional include paths we'll need
 INCLUDE_PATHS=$(shell sdl2-config --cflags)
