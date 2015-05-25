@@ -38,20 +38,28 @@ void LEDPanel::Draw(int x, int y)
     {
         int offsetY = i * 40 + y + mMargin;
 
+        Button *bigBtn     = mButtons[i];
+        Button *mediumBtn  = mButtons[i + 1];
+        Button *smallBtn   = mButtons[i + 2];
+
         // Draw the large button
-        mButtons[i]->SetX(x + mMargin);
-        mButtons[i]->SetY(offsetY);
-        mButtons[i]->Draw();
+        bigBtn->SetX(x + mMargin);
+        bigBtn->SetY(offsetY);
+        bigBtn->Draw();
 
-        // Draw the small button
-        mButtons[i + 1]->SetX(mButtons[i]->GetCollisionBox().x + mButtons[i]->GetCollisionBox().w + mGap);
-        mButtons[i + 1]->SetY(offsetY + mGap);
-        mButtons[i + 1]->Draw();
+        // Draw the medium button
+        mediumBtn->SetX(bigBtn->GetCollisionBox().x + bigBtn->GetCollisionBox().w + mGap);
+        mediumBtn->SetY(offsetY + mGap);
+        mediumBtn->Draw();
 
-        // Draw the final button
-        mButtons[i + 2]->SetX(mButtons[i + 1]->GetCollisionBox().x);
-        mButtons[i + 2]->SetY(mButtons[i + 1]->GetCollisionBox().y + mButtons[i + 1]->GetCollisionBox().h + mGap);
-        mButtons[i + 2]->Draw();
+        // Draw the smallt button
+        smallBtn->SetX(mediumBtn->GetCollisionBox().x);
+        smallBtn->SetY(mediumBtn->GetCollisionBox().y + mediumBtn->GetCollisionBox().h + mGap);
+        smallBtn->Draw();
+
+        bigBtn    = NULL;
+        mediumBtn = NULL;
+        smallBtn  = NULL;
     }
 }
 
