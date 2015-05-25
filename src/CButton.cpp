@@ -15,10 +15,11 @@ Button::Button(int x, int y, string name)
     beingDragged     = false;
     showCollisionBox = false;
     useCollisionBox  = false;
+    hoverEnabled     = true;
 
     hoverClr.r      = 0;
-    hoverClr.g      = 187;
-    hoverClr.b      = 255; // magenta hover
+    hoverClr.g      = 180;
+    hoverClr.b      = 0;
 
     mTexture.LoadImage(name.c_str());
 
@@ -50,8 +51,8 @@ Button::Button(int x, int y, string text, int fontSize)
     borderClr.b = 0; // red border
 
     hoverClr.r = 0;
-    hoverClr.g = 140;
-    hoverClr.b = 200; // magenta hover
+    hoverClr.g = 180;
+    hoverClr.b = 0;
 
     mTexture.LoadText(text, fgClr, buttonFont);
 
@@ -70,6 +71,7 @@ Button::Button(int x, int y, string text, int fontSize)
     beingDragged     = false;
     showCollisionBox = false;
     useCollisionBox  = false;
+    hoverEnabled     = true;
 
     mAlphaVal = 255;
 
@@ -81,10 +83,10 @@ Button::Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL
 {
     buttonFont = TTF_OpenFont("Fonts/ClearSansMedium.ttf", fontSize);
 
-    fgClr = textColor;
-    bgClr = fillColor;
+    fgClr     = textColor;
+    bgClr     = fillColor;
     borderClr = borderColor;
-    hoverClr = hoverColor;
+    hoverClr  = hoverColor;
 
     mTexture.LoadText(text, fgClr, buttonFont);
 
@@ -102,11 +104,49 @@ Button::Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL
     mousedOver       = false;
     beingDragged     = false;
     showCollisionBox = false;
+    hoverEnabled     = true;
 
     mAlphaVal = 255;
 
     // Enable blending
     mTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
+}
+
+Button::Button(string stdImagePath, string altImagePath, int x, int y)
+{
+    buttonType     = ALTIMG;
+
+    buttonFont = NULL;
+
+    leftReleased     = false;
+    rightReleased    = false;
+    leftClicked      = false;
+    rightClicked     = false;
+    mousedOver       = false;
+    beingDragged     = false;
+    showCollisionBox = false;
+    useCollisionBox  = false;
+    hoverEnabled     = false;
+
+    hoverClr.r      = 255;
+    hoverClr.g      = 255;
+    hoverClr.b      = 255;
+
+    usingAltTexture = false;
+
+    mTexture.LoadImage(stdImagePath.c_str());
+    mAltTexture.LoadImage(altImagePath.c_str());
+
+    collisionBox.x = x;
+    collisionBox.y = y;
+    collisionBox.w = mTexture.GetWidth();
+    collisionBox.h = mTexture.GetHeight();
+
+    mAlphaVal      = 255;
+
+    // Enable blending
+    mTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
+    mAltTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
 }
 
 Button::~Button()
@@ -140,9 +180,8 @@ void Button::Draw()
         }
         else if (mousedOver)
         {
-
             // draw image with hover color modulation
-            mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
+            if(hoverEnabled) mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
             mTexture.Draw(collisionBox.x,  collisionBox.y);
         }
     }
@@ -168,13 +207,13 @@ void Button::Draw()
             if(!usingAltTexture)
             {
                 // draw image with hover color modulation
-                mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
+                if(hoverEnabled) mTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
                 mTexture.Draw(collisionBox.x, collisionBox.y);
             }
             else
             {
                 // draw image with hover color modulation
-                mAltTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
+                if(hoverEnabled) mAltTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
                 mAltTexture.Draw(collisionBox.x - abs(collisionBox.w/2 - mAltTexture.GetWidth()/2), collisionBox.y - abs(collisionBox.h/2 - mAltTexture.GetHeight()/2));
             }
         }
@@ -205,7 +244,11 @@ void Button::Draw()
         else if (mousedOver)
         {
             // draw bg box
-            SDL_SetRenderDrawColor(game->GetRenderer(), hoverClr.r, hoverClr.g, hoverClr.b, 255);
+            if(hoverEnabled)
+                SDL_SetRenderDrawColor(game->GetRenderer(), hoverClr.r, hoverClr.g, hoverClr.b, 255);
+            else
+                SDL_SetRenderDrawColor(game->GetRenderer(), bgClr.r, bgClr.g, bgClr.b, 255);
+
             SDL_RenderFillRect(game->GetRenderer(), &collisionBox);
 
             // draw border outline
@@ -315,41 +358,5 @@ void Button::ToggleAltImage()
 void Button::Update()
 {
     ShowCollisionBox(useCollisionBox && (mousedOver || beingDragged));
-}
-
-Button::Button(string stdImagePath, string altImagePath, int x, int y)
-{
-    buttonType     = ALTIMG;
-
-    buttonFont = NULL;
-
-    leftReleased     = false;
-    rightReleased    = false;
-    leftClicked      = false;
-    rightClicked     = false;
-    mousedOver       = false;
-    beingDragged     = false;
-    showCollisionBox = false;
-    useCollisionBox = false;
-
-    hoverClr.r      = 255;
-    hoverClr.g      = 255;
-    hoverClr.b      = 255;
-
-    usingAltTexture = false;
-
-    mTexture.LoadImage(stdImagePath.c_str());
-    mAltTexture.LoadImage(altImagePath.c_str());
-
-    collisionBox.x = x;
-    collisionBox.y = y;
-    collisionBox.w = mTexture.GetWidth();
-    collisionBox.h = mTexture.GetHeight();
-
-    mAlphaVal      = 255;
-
-    // Enable blending
-    mTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
-    mAltTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
 }
 

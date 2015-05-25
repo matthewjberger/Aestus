@@ -38,6 +38,7 @@ class Button
         bool usingAltTexture;
         bool showCollisionBox;
         bool useCollisionBox;
+        bool hoverEnabled;
 
         SDL_Rect visRect;
 
@@ -127,6 +128,11 @@ class Button
         bool IsBeingDragged()
         {
             return beingDragged;
+        }
+
+        void UseHoverHighlight(bool vis)
+        {
+            hoverEnabled = vis;
         }
 
 };
