@@ -61,37 +61,32 @@ void LEDPanel::HandleEvents()
     {
         i->HandleEvents();
 
-        if(i->IsBeingDragged())
-        {
-            for(auto j : mButtons)
-            {
-                j->UseCollisionBox(false);
-            }
-
-            i->UseCollisionBox(true);
-
-            mButtonBeingDragged = true;
-        }
-
+         // if a button was left clicked
         if(i->WasLeftClicked())
         {
+            // There is a lit button and this one is it
             if(mButtonActive && i->UsingAltImage())
             {
+                // Disable it
                 mButtonActive = false;
             }
             else if(mButtonActive && !i->UsingAltImage())
             {
+                // There is a lit button and this one is not it
                 for(auto j : mButtons)
                 {
+                    // Find the one that is using the alt image and disable it
                     if(j->UsingAltImage()) j->ShowAltImage(false);
                 }
 
             }
+            // If no button is active, set the flag
             else if(!mButtonActive)
             {
                 mButtonActive = true;
             }
 
+            // Always toggle the image upon clicking
             i->ToggleAltImage();
         }
     }
@@ -105,7 +100,26 @@ void LEDPanel::Update()
         i->Update();
 
         i->UseCollisionBox(true);
-    }
+
+        mButtonBeingDragged = false;
+
+        // If a button is being dragged
+        if(i->IsBeingDragged())
+        {
+            // Disable all collision boxes
+            for(auto j : mButtons)
+            {
+                j->UseCollisionBox(false);
+            }
+
+            // Enable just the one that's being dragged
+            i->UseCollisionBox(true);
+
+            // Set the flag
+            mButtonBeingDragged = true;
+        }
+
+   }
 
 }
 

@@ -250,15 +250,14 @@ void Button::HandleEvents()
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
-        if(mousedOver) beingDragged = true;
-
         switch (event.button.button)
         {
             case SDL_BUTTON_LEFT:
 
                 if (mousedOver)
                 {
-                    leftClicked = true;    // if the mouse clicks and is over the button, register it
+                    beingDragged = true;
+                    leftClicked  = true;    // if the mouse clicks and is over the button, register it
                 }
 
                 break;
@@ -275,10 +274,10 @@ void Button::HandleEvents()
     }
     else if (event.type == SDL_MOUSEBUTTONUP)
     {
-        beingDragged = false;
         switch (event.button.button)
         {
             case SDL_BUTTON_LEFT:
+                beingDragged = false;
                 if (mousedOver)
                 {
                     if (leftClicked == true)
@@ -315,7 +314,7 @@ void Button::ToggleAltImage()
 
 void Button::Update()
 {
-    if(useCollisionBox) ShowCollisionBox(mousedOver || beingDragged);
+    ShowCollisionBox(useCollisionBox && (mousedOver || beingDragged));
 }
 
 Button::Button(string stdImagePath, string altImagePath, int x, int y)
