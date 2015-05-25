@@ -26,5 +26,6 @@ class LEDPanel
         int mMargin;
         int mGap;
         bool mButtonActive;
+        bool mButtonBeingDragged;
 
 };

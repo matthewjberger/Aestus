@@ -7,11 +7,14 @@ Button::Button(int x, int y, string name)
 
     buttonFont = NULL;
 
-    leftReleased    = false;
-    rightReleased   = false;
-    leftClicked     = false;
-    rightClicked    = false;
-    mousedOver      = false;
+    leftReleased     = false;
+    rightReleased    = false;
+    leftClicked      = false;
+    rightClicked     = false;
+    mousedOver       = false;
+    beingDragged     = false;
+    showCollisionBox = false;
+    useCollisionBox  = false;
 
     hoverClr.r      = 0;
     hoverClr.g      = 187;
@@ -59,11 +62,14 @@ Button::Button(int x, int y, string text, int fontSize)
 
     buttonType = TEXT;
 
-    leftReleased    = false;
-    rightReleased   = false;
-    leftClicked     = false;
-    rightClicked    = false;
-    mousedOver      = false;
+    leftReleased     = false;
+    rightReleased    = false;
+    leftClicked      = false;
+    rightClicked     = false;
+    mousedOver       = false;
+    beingDragged     = false;
+    showCollisionBox = false;
+    useCollisionBox  = false;
 
     mAlphaVal = 255;
 
@@ -89,11 +95,13 @@ Button::Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL
 
     buttonType = TEXT;
 
-    leftReleased  = false;
-    rightReleased = false;
-    leftClicked   = false;
-    rightClicked  = false;
-    mousedOver    = false;
+    leftReleased     = false;
+    rightReleased    = false;
+    leftClicked      = false;
+    rightClicked     = false;
+    mousedOver       = false;
+    beingDragged     = false;
+    showCollisionBox = false;
 
     mAlphaVal = 255;
 
@@ -168,9 +176,13 @@ void Button::Draw()
                 // draw image with hover color modulation
                 mAltTexture.SetColor(hoverClr.r, hoverClr.g, hoverClr.b);
                 mAltTexture.Draw(collisionBox.x - abs(collisionBox.w/2 - mAltTexture.GetWidth()/2), collisionBox.y - abs(collisionBox.h/2 - mAltTexture.GetHeight()/2));
-                SDL_SetRenderDrawColor( game->GetRenderer(), 0, 255, 0, 255);
-                SDL_RenderDrawRect(game->GetRenderer(), &collisionBox);
-             }
+            }
+        }
+
+        if(showCollisionBox)
+        {
+            SDL_SetRenderDrawColor( game->GetRenderer(), 0, 255, 0, 255);
+            SDL_RenderDrawRect(game->GetRenderer(), &collisionBox);
         }
     }
     else if (buttonType == TEXT)
@@ -214,6 +226,8 @@ void Button::HandleEvents()
 
     SDL_Event event = game->GetEvent();
 
+    ResetReleases();
+
     // Mouse position variables
     int x;
     int y;
@@ -236,63 +250,62 @@ void Button::HandleEvents()
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
+        if(mousedOver) beingDragged = true;
+
         switch (event.button.button)
         {
-        case SDL_BUTTON_LEFT:
+            case SDL_BUTTON_LEFT:
 
-            if (mousedOver)
-            {
-                leftClicked = true;    // if the mouse clicks and is over the button, register it
-            }
+                if (mousedOver)
+                {
+                    leftClicked = true;    // if the mouse clicks and is over the button, register it
+                }
 
-            break;
+                break;
 
-        case SDL_BUTTON_RIGHT:
+            case SDL_BUTTON_RIGHT:
 
-            if (mousedOver)
-            {
-                rightClicked = true;
-            }
+                if (mousedOver)
+                {
+                    rightClicked = true;
+                }
 
-            break;
+                break;
         }
     }
     else if (event.type == SDL_MOUSEBUTTONUP)
     {
+        beingDragged = false;
         switch (event.button.button)
         {
-        case SDL_BUTTON_LEFT:
-
-            if (mousedOver)
-            {
-                if (leftClicked == true)
+            case SDL_BUTTON_LEFT:
+                if (mousedOver)
                 {
-                    // left button release event
-                    leftReleased = true;
-                    leftClicked = false;
+                    if (leftClicked == true)
+                    {
+                        // left button release event
+                        leftReleased = true;
+                        leftClicked = false;
+                    }
                 }
-            }
 
-            break;
+                break;
 
-        case SDL_BUTTON_RIGHT:
+            case SDL_BUTTON_RIGHT:
 
-            if (mousedOver)
-            {
-                if (rightClicked == true)
+                if (mousedOver)
                 {
-                    // right button release event
-                    rightReleased = true;
-                    rightClicked = false;
+                    if (rightClicked == true)
+                    {
+                        // right button release event
+                        rightReleased = true;
+                        rightClicked = false;
+                    }
                 }
-            }
 
-
-            break;
+                break;
         }
     }
-
-    ResetReleases();
 }
 
 void Button::ToggleAltImage()
@@ -302,6 +315,7 @@ void Button::ToggleAltImage()
 
 void Button::Update()
 {
+    if(useCollisionBox) ShowCollisionBox(mousedOver || beingDragged);
 }
 
 Button::Button(string stdImagePath, string altImagePath, int x, int y)
@@ -310,11 +324,14 @@ Button::Button(string stdImagePath, string altImagePath, int x, int y)
 
     buttonFont = NULL;
 
-    leftReleased   = false;
-    rightReleased  = false;
-    leftClicked    = false;
-    rightClicked   = false;
-    mousedOver     = false;
+    leftReleased     = false;
+    rightReleased    = false;
+    leftClicked      = false;
+    rightClicked     = false;
+    mousedOver       = false;
+    beingDragged     = false;
+    showCollisionBox = false;
+    useCollisionBox = false;
 
     hoverClr.r      = 255;
     hoverClr.g      = 255;
@@ -334,5 +351,6 @@ Button::Button(string stdImagePath, string altImagePath, int x, int y)
 
     // Enable blending
     mTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
+    mAltTexture.SetBlendMode(SDL_BLENDMODE_BLEND);
 }
 

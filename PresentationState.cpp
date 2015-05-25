@@ -21,12 +21,13 @@ void PresentationState::Draw()
 {
     Game *game = Game::GetInstance();
 
-    game->ClearScreen(101, 156, 239);
+    game->ClearScreen(77, 77, 77);
     ledPanel->Draw();
 }
 
 void PresentationState::Update()
 {
+    ledPanel->Update();
 }
 
 void PresentationState::HandleEvents()

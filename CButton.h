@@ -28,12 +28,16 @@ class Button
         bool leftReleased;
         bool rightReleased;
 
+        bool beingDragged;
+
         int mAlphaVal;
 
         Texture mTexture;
         Texture mAltTexture;
 
         bool usingAltTexture;
+        bool showCollisionBox;
+        bool useCollisionBox;
 
         SDL_Rect visRect;
 
@@ -106,11 +110,23 @@ class Button
         {
             leftReleased  = false;
             rightReleased = false;
+            leftClicked   = false;
+            rightClicked  = false;
         }
 
-        void ShowCollisionBoxForTexture(bool vis)
+        void ShowCollisionBox(bool vis)
         {
-            mTexture.SetCollisionBoxVisible(vis);
-            //mAltTexture.SetCollisionBoxVisible(vis);
+            showCollisionBox = vis;
         }
+
+        void UseCollisionBox(bool use)
+        {
+            useCollisionBox = use;
+        }
+
+        bool IsBeingDragged()
+        {
+            return beingDragged;
+        }
+
 };

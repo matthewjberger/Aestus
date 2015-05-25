@@ -10,57 +10,57 @@ using namespace std;
 // SDL_Texture wrapper class
 class Texture
 {
-public:
-	Texture();
-	~Texture();
+    public:
+        Texture();
+        ~Texture();
 
-	// loads/binds image to texture
-	void LoadImage(string path);
+        // loads/binds image to texture
+        void LoadImage(string path);
 
-	// loas/binds text to texture
-	void LoadText(string text, SDL_Color textColor, TTF_Font* font);
+        // loas/binds text to texture
+        void LoadText(string text, SDL_Color textColor, TTF_Font* font);
 
-	// Deallocates texture
-	void Free();
+        // Deallocates texture
+        void Free();
 
-	// Renders texture
-	void Draw(int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+        // Renders texture
+        void Draw(int x, int y, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-	// Set Color modulation
-	void SetColor(Uint8 red, Uint8 green, Uint8 blue);
+        // Set Color modulation
+        void SetColor(Uint8 red, Uint8 green, Uint8 blue);
 
-	// Set blending
-	void SetBlendMode(SDL_BlendMode blending);
+        // Set blending
+        void SetBlendMode(SDL_BlendMode blending);
 
-	// Set alpha modulation
-	void SetAlpha(Uint8 alpha);
+        // Set alpha modulation
+        void SetAlpha(Uint8 alpha);
 
-	// Gets image dimensions
-	int GetWidth()
-	{
-		return mWidth;
-	}
+        // Gets image dimensions
+        int GetWidth()
+        {
+            return mWidth;
+        }
 
-	int GetHeight()
-	{
-		return mHeight;
-	}
+        int GetHeight()
+        {
+            return mHeight;
+        }
 
-    // Collision Box Visibility setting
-    void SetCollisionBoxVisible(bool vis) { mShowCollisionBox = vis; }
+        // Collision Box Visibility setting
+        void SetCollisionBoxVisible(bool vis) { mShowCollisionBox = vis; }
 
-	// Toggle collision box visibility
-	void ToggleCollisionBox() { mShowCollisionBox = !mShowCollisionBox; }
+        // Toggle collision box visibility
+        void ToggleCollisionBox() { mShowCollisionBox = !mShowCollisionBox; }
 
-private:
-	// Hardware texture
-	SDL_Texture *mTexture;
+    private:
+        // Hardware texture
+        SDL_Texture *mTexture;
 
-	// Dimensions
-	int mWidth;
-	int mHeight;
+        // Dimensions
+        int mWidth;
+        int mHeight;
 
-	// Collision box debugging
-	bool mShowCollisionBox;
+        // Collision box debugging
+        bool mShowCollisionBox;
 
 };

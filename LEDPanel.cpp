@@ -6,6 +6,7 @@ LEDPanel::LEDPanel()
     mMargin = 10;
     mGap    = 15;
     mButtonActive = false;
+    mButtonBeingDragged = false;
 
     string type[]  = {"TH", "PL", "SM"};
     string color[] = {"R", "O", "Y", "G", "B", "W" };
@@ -60,6 +61,18 @@ void LEDPanel::HandleEvents()
     {
         i->HandleEvents();
 
+        if(i->IsBeingDragged())
+        {
+            for(auto j : mButtons)
+            {
+                j->UseCollisionBox(false);
+            }
+
+            i->UseCollisionBox(true);
+
+            mButtonBeingDragged = true;
+        }
+
         if(i->WasLeftClicked())
         {
             if(mButtonActive && i->UsingAltImage())
@@ -68,9 +81,9 @@ void LEDPanel::HandleEvents()
             }
             else if(mButtonActive && !i->UsingAltImage())
             {
-                for(auto i : mButtons)
+                for(auto j : mButtons)
                 {
-                    if(i->UsingAltImage()) i->ShowAltImage(false);
+                    if(j->UsingAltImage()) j->ShowAltImage(false);
                 }
 
             }
@@ -81,12 +94,18 @@ void LEDPanel::HandleEvents()
 
             i->ToggleAltImage();
         }
-
-       i->ShowCollisionBoxForTexture(i->IsMousedOver());
     }
 }
 
 void LEDPanel::Update()
 {
+    for(auto i : mButtons)
+    {
+        // Allow only one button to be highlighted at a time
+        i->Update();
+
+        i->UseCollisionBox(true);
+    }
+
 }
 
