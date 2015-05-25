@@ -70,7 +70,7 @@ void Slider::HandleEvents()
         }
 
         // Allow user to click where they want the slider to be
-        if(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT) && MARCollisionTest(x, y, mColRect))
+        if(SDL_GetMouseState(NULL, NULL) & SDL_BUTTON_LMASK && MARCollisionTest(x, y, mColRect))
         {
             mButton->SetY(y - mButton->GetCollisionBox().h/2);
         }
