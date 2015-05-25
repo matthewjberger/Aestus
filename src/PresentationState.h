@@ -2,6 +2,7 @@
 
 #include "CoreGame.h"
 #include "LEDPanel.h"
+#include "Slider.h"
 
 class PresentationState : public GameState
 {

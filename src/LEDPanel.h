@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CButton.h"
+#include "Slider.h"
 #include <string>
 #include <vector>
 
@@ -23,6 +24,7 @@ class LEDPanel
     private:
 
         Button *mButtons[NUM_LEDS];
+        Slider *mSlider;
         int mMargin;
         int mGap;
         bool mButtonActive;

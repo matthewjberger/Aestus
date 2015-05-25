@@ -135,4 +135,15 @@ class Button
             hoverEnabled = vis;
         }
 
+        int CenterWithX(int x)
+        {
+            return (x + collisionBox.x)/2;
+        }
+
+        int CenterWithY(int y)
+        {
+            return (y + collisionBox.y)/2;
+        }
+
+
 };

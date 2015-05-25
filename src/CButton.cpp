@@ -36,7 +36,10 @@ Button::Button(int x, int y, string name)
 
 Button::Button(int x, int y, string text, int fontSize)
 {
-    buttonFont = TTF_OpenFont("Fonts/ClearSansMedium.ttf", fontSize);
+    Game *game = Game::GetInstance();
+
+    string fontPath = "Fonts/" + game->GetDefaultFontName();
+    buttonFont = TTF_OpenFont(fontPath.c_str(), fontSize);
 
     fgClr.r = 255;
     fgClr.g = 255;
@@ -81,7 +84,9 @@ Button::Button(int x, int y, string text, int fontSize)
 
 Button::Button(int x, int y, string text, int fontSize, SDL_Color textColor, SDL_Color fillColor, SDL_Color borderColor, SDL_Color hoverColor)
 {
-    buttonFont = TTF_OpenFont("Fonts/ClearSansMedium.ttf", fontSize);
+    Game* game = game->GetInstance();
+
+    buttonFont = game->GetDefaultFont();
 
     fgClr     = textColor;
     bgClr     = fillColor;

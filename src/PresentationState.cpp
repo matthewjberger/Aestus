@@ -19,8 +19,6 @@ void PresentationState::Finalize()
 
 void PresentationState::Draw()
 {
-    Game *game = Game::GetInstance();
-
     game->ClearScreen(77, 77, 77);
     ledPanel->Draw();
 }

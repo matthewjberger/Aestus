@@ -103,6 +103,11 @@ class Game
             return (screenHeight - y) / 2;
         }
 
+        string GetDefaultFontName()
+        {
+            return defaultFontName;
+        }
+
         // GameState stack
         vector<GameState *> GameStates;
 
@@ -132,7 +137,9 @@ class Game
 
         SDL_Color defaultColor;
 
+        // Font
         TTF_Font *font;
+        string defaultFontName;
 
         // Screen dimensions
         int screenWidth;

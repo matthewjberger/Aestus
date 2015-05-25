@@ -10,7 +10,7 @@ Game::Game()
     debugging = false;
 
     // Set default resolution
-    screenWidth  = 240;
+    screenWidth  = 300;
     screenHeight = 728;
 
     gameCamera.x = 0;
@@ -19,6 +19,7 @@ Game::Game()
     gameCamera.h = screenHeight;
 
     font = NULL;
+    defaultFontName = "FreeSans.ttf";
 
     char* caption = "";
 
@@ -35,6 +36,7 @@ Game::Game()
 
     // Seed RNG
     srand((unsigned int)time(NULL));
+
 }
 
 Game::~Game()
@@ -146,8 +148,10 @@ bool Game::Initialize()
 
 bool Game::LoadContent()
 {
+    string fontPath = "Fonts/" + defaultFontName;
+
     // Load font
-    font = TTF_OpenFont("Fonts/FreeSans.ttf", 36);
+    font = TTF_OpenFont(fontPath.c_str(), 36);
 
     if (font == NULL)
     {

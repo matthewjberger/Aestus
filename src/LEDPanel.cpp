@@ -1,5 +1,8 @@
 #include "LEDPanel.h"
+#include "CoreGame.h"
 #include <iostream>
+
+Game* game = Game::GetInstance();
 
 LEDPanel::LEDPanel()
 {
@@ -17,11 +20,10 @@ LEDPanel::LEDPanel()
         string stdImage = baseName + "-O.png";
         string altImage = baseName + "-I.png";
 
-        cout << stdImage << endl;
-        cout << altImage << endl << endl;
-
         mButtons[i] = new Button(stdImage, altImage);
     }
+
+    mSlider = new Slider(240,25,2,(game->GetScreenHeight() - 50));
 }
 
 LEDPanel::~LEDPanel()
@@ -30,6 +32,8 @@ LEDPanel::~LEDPanel()
     {
         delete i;
     }
+
+    delete mSlider;
 }
 
 void LEDPanel::Draw(int x, int y)
@@ -61,15 +65,21 @@ void LEDPanel::Draw(int x, int y)
         mediumBtn = NULL;
         smallBtn  = NULL;
     }
+
+    mSlider->Draw();
 }
 
 void LEDPanel::HandleEvents()
 {
+    Game *game = Game::GetInstance();
+
+    SDL_Event event = game->GetEvent();
+
     for(auto i : mButtons)
     {
         i->HandleEvents();
 
-         // if a button was left clicked
+        // if a button was left clicked
         if(i->WasLeftClicked())
         {
             // There is a lit button and this one is it
@@ -96,6 +106,18 @@ void LEDPanel::HandleEvents()
 
             // Always toggle the image upon clicking
             i->ToggleAltImage();
+        }
+    }
+
+    mSlider->HandleEvents();
+
+    if(event.type == SDL_KEYDOWN)
+    {
+        switch(event.key.keysym.sym)
+        {
+            case SDLK_l:
+                mSlider->ToggleLock();
+                break;
         }
     }
 }
@@ -126,8 +148,8 @@ void LEDPanel::Update()
             // Set the flag
             mButtonBeingDragged = true;
         }
+    }
 
-   }
-
+    mSlider->Update();
 }
 
