@@ -53,7 +53,7 @@ void LEDPanel::Draw(int x, int y)
         mediumBtn->Draw();
 
         // Draw the small button
-        smallBtn->SetX(mediumBtn->GetCollisionBox().x);
+        smallBtn->SetX((mediumBtn->GetCollisionBox().x + mediumBtn->GetCollisionBox().w/2) - smallBtn->GetCollisionBox().w/2);
         smallBtn->SetY(mediumBtn->GetCollisionBox().y + mediumBtn->GetCollisionBox().h + mGap);
         smallBtn->Draw();
 
